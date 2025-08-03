@@ -68,7 +68,7 @@ def get_formatted_data():
     h_data = pd.read_csv("h.csv")
     # print(s_data)
     s_data.insert(loc=5, column="Asr Hanafi", value=h_data["Asar"])
-    s_data = s_data.rename(columns={"Asar": "Asr Shafi"})
+    s_data = s_data.rename(columns={"Asar": "Asr"})
     x = s_data["Date"].str.split(" ", expand=True)[[0, 1]]
     s_data[["Date"]] = x[[1]]
     s_data.insert(loc=1, column="Day", value=x[[0]])
@@ -98,7 +98,7 @@ def gen_doc(df):
     doc = Document(geometry_options=geometry_options, font_size="Large")
     doc.append(Command("pagenumbering", "gobble"))
     with doc.create(Center()):
-        image_filename = "/home/yazeed/salah-time/logo.png"
+        image_filename = "./logo.png"
         with doc.create(Figure(position="th")) as logo:
             logo.add_image(image_filename, width="69px")
         doc.append(NoEscape(r"\vspace{-10pt}"))  # Inserting the vertical space

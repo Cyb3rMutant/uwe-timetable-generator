@@ -1,5 +1,6 @@
+.env
 .venv
 .mypy_cache
 *.csv
-*.pdf
+ahmad.pdf
 *.json
