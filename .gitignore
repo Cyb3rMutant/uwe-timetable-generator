@@ -4,3 +4,4 @@
 *.csv
 ahmad.pdf
 *.json
+__pycache__

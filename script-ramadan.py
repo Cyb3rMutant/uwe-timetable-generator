@@ -2,6 +2,8 @@ from datetime import datetime, timedelta
 
 from pylatex.utils import bold
 
+from script import get_csv, get_formatted_data
+
 # Get the current date
 today = datetime.now()
 
@@ -16,73 +18,8 @@ fd = datetime(today.year, today.month, today.day)
 ld = datetime(today.year, today.month, 30)
 
 
-def get_csv(t: int):
-    import requests
-
-    if t == 1:
-        acm = "1"
-        file_name = "s.csv"
-    elif t == 2:
-        acm = "2"
-        file_name = "h.csv"
-    else:
-        exit()
-    url = "https://downloads.salahtimes.com/api/prayerDownload"
-    headers = {
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-    }
-
-    params = {
-        "format": "csv",
-        "country": "uk",
-        "place": "bristol",
-        "hlm": "4",
-        "pcm": "5",
-        "acm": acm,
-        "ds": fd.strftime("%Y-%m-%d"),
-        "de": ld.strftime("%Y-%m-%d"),
-        "as24": "true",
-    }
-
-    response = requests.get(url, headers=headers, params=params)
-
-    if response.status_code == 200:
-        with open(file_name, "wb") as file:
-            file.write(response.content)
-    else:
-        print(f"Error: {response.status_code} - {response.text}")
-
-
-def get_formatted_data():
-    import pandas as pd
-
-    # Read data from "s.csv" and "h.csv"
-    s_data = pd.read_csv("s.csv")
-    h_data = pd.read_csv("h.csv")
-    # print(s_data)
-    s_data.insert(loc=5, column="Asr Hanafi", value=h_data["Asar"])
-    s_data = s_data.rename(columns={"Asar": "Asr Shafi"})
-    x = s_data["Date"].str.split(" ", expand=True)[[0, 1]]
-    s_data[["Date"]] = x[[0]]
-    s_data.insert(loc=0, column="Day", value=x[[1]])
-    s_data.insert(
-        loc=9,
-        column="Tarawih",
-        value=["20:00"] * 15 + ["20:30"] * 14 + ["N/A"],
-    )
-    return s_data
-
-
 def gen_doc(df):
-    from pylatex import (
-        Center,
-        Command,
-        Document,
-        Figure,
-        LineBreak,
-        Tabular,
-    )
+    from pylatex import Center, Command, Document, Figure, LineBreak, Tabular
 
     # Create a LaTeX document
     geometry_options = {
