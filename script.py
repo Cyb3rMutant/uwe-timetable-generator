@@ -117,14 +117,24 @@ def gen_doc(df):
             t2.add_hline()
             t2.add_row(
                 [
-                    "Seerah Class: The Sealed Nectar - Every Tuesday, 18:00 - Brothers in-person (3E39), Sisters online"
+                    "Quran circles - Mondays - Brothers 18:00 in Br. prayer room - Sisters 18:15 in Sis. prayer room"
+                ]
+            )
+            t2.add_hline()
+            t2.add_row(
+                [
+                    "Seerah class - Tuesdays at 18:00 - Ustadh Ahmad - Brothers in 3E39, sisters online"
+                ]
+            )
+            t2.add_hline()
+            t2.add_row(
+                [
+                    "Roots - Wednesdays at 17:30 - Ustadh Abu Malik - Brothers and Sisters in 2X112"
                 ]
             )
             t2.add_hline()
 
         doc.append(LineBreak())
-        doc.append(LineBreak())
-        doc.append("Prayer times provided by https://www.salahtimes.com")
         doc.append(LineBreak())
         doc.append(bold("https://uwe.isoc.link/timetable"))
 
