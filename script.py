@@ -115,26 +115,26 @@ def gen_doc(df):
                 ]
             )
             t2.add_hline()
-            t2.add_row(["ALL CLASSES PAUSED"])
-            t2.add_row(["UNTIL"])
-            t2.add_row(["19-01-2026"])
-            # t2.add_row(
-            #     [
-            #         "Quran circles - Mondays - Brothers 18:00 in Br. prayer room - Sisters 18:15 in Sis. prayer room"
-            #     ]
-            # )
-            # t2.add_hline()
-            # t2.add_row(
-            #     [
-            #         "Seerah class - Tuesdays at 18:00 - Ustadh Amin - Brothers in 3E39, sisters online"
-            #     ]
-            # )
-            # t2.add_hline()
-            # t2.add_row(
-            #     [
-            #         "Roots - Wednesdays at 17:30 - Ustadh Abu Malik - Brothers and Sisters in 2X112"
-            #     ]
-            # )
+            # t2.add_row(["ALL CLASSES PAUSED"])
+            # t2.add_row(["UNTIL"])
+            # t2.add_row(["19-01-2026"])
+            t2.add_row(
+                [
+                    "Quran circles - Mondays - Brothers 18:00 in Br. prayer room - Sisters 18:15 in Sis. prayer room"
+                ]
+            )
+            t2.add_hline()
+            t2.add_row(
+                [
+                    "Seerah class - Tuesdays at 18:00 - Ustadh Amin - Brothers in 3E39, sisters online"
+                ]
+            )
+            t2.add_hline()
+            t2.add_row(
+                [
+                    "Roots - Wednesdays at 17:30 - Ustadh Abu Malik - Brothers and Sisters in 2X112"
+                ]
+            )
             t2.add_hline()
 
         doc.append(LineBreak())
