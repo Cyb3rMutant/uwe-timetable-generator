@@ -78,7 +78,8 @@ def gen_doc(df):
     doc.append(Command("pagenumbering", "gobble"))
 
     doc.preamble.append(NoEscape(r"\usepackage{graphicx}"))
-    doc.preamble.append(NoEscape(r"\usepackage[hidelinks]{hyperref}"))
+    # doc.preamble.append(NoEscape(r"\usepackage[hidelinks]{hyperref}"))
+    doc.preamble.append(NoEscape(r"\usepackage{hyperref}"))
 
     doc.append(NoEscape(r"""
     \noindent
@@ -166,6 +167,8 @@ def gen_doc(df):
         doc.append(LineBreak())
         doc.append(LineBreak())
         doc.append(bold("https://uwe.isoc.link/timetable"))
+        doc.append(LineBreak())
+        doc.append("Click or scan qr codes for details and forms")
 
     # Save the document to a PDF file
     doc.generate_pdf("prayer_time", clean_tex=True)
