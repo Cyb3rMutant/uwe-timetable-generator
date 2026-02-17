@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import utils
 
 # Get the current date, 20 days ago
 today = datetime.now() - timedelta(days=20)
@@ -7,66 +8,13 @@ today = datetime.now() - timedelta(days=20)
 # Handle year and month overflow (e.g., December to January)
 next_month = today.month % 12 + 1
 next_year = today.year + (today.month // 12)
-fd = datetime(next_year, next_month, 1)
+fd = datetime(next_year, 6, 1)
 
 # Calculate the last day of the next month
 # Handle year and month overflow
 next_next_month = (today.month + 1) % 12 + 1
 next_next_year = today.year + ((today.month + 1) // 12)
-ld = datetime(next_next_year, next_next_month, 1) - timedelta(days=1)
-
-
-def get_csv(t: int):
-    import requests
-
-    if t == 1:
-        hlm = "4"
-        acm = "1"
-        file_name = "s.csv"
-    elif t == 2:
-        hlm = "3"
-        acm = "2"
-        file_name = "h.csv"
-    else:
-        exit()
-    url = "https://downloads.salahtimes.com/api/prayerDownload"
-    headers = {
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-    }
-
-    params = {
-        "format": "csv",
-        "country": "uk",
-        "place": "bristol",
-        "hlm": hlm,
-        "pcm": "5",
-        "acm": acm,
-        "ds": fd.strftime("%Y-%m-%d"),
-        "de": ld.strftime("%Y-%m-%d"),
-        "as24": "true",
-    }
-
-    response = requests.get(url, headers=headers, params=params)
-
-    with open(file_name, "wb") as file:
-        file.write(response.content)
-
-
-def get_formatted_data():
-    import pandas as pd
-
-    # Read data from "s.csv" and "h.csv"
-    s_data = pd.read_csv("s.csv")
-    h_data = pd.read_csv("h.csv")
-    s_data.insert(loc=5, column="Asr Hanafi", value=h_data["Asar"])
-    s_data = s_data.rename(columns={"Asar": "Asr Shafi"})
-    x = s_data["Date"].str.split(" ", expand=True)[[0, 1]]
-    s_data[["Date"]] = x[[1]]
-    s_data.insert(loc=1, column="Day", value=x[[0]])
-    s_data[["Isha"]] = h_data[["Isha"]]
-    # Save the final data to "f.csv"
-    return s_data
+ld = datetime(next_next_year, 7, 1) - timedelta(days=1)
 
 
 def gen_doc(df):
@@ -83,9 +31,8 @@ def gen_doc(df):
     doc = Document(geometry_options=geometry_options, font_size="large")
     doc.append(Command("pagenumbering", "gobble"))
     with doc.create(Center()):
-        image_filename = "./logo.png"
         with doc.create(Figure(position="th")) as logo:
-            logo.add_image(image_filename, width="69px")
+            logo.add_image("./logo.png", width="69px")
         doc.append(NoEscape(r"\vspace{-10pt}"))  # Inserting the vertical space
         doc.append(bold(f"{fd.strftime('%a %d %b %Y')} - {ld.strftime('%a %d %b %Y')}"))
         doc.append(LineBreak())
@@ -105,50 +52,38 @@ def gen_doc(df):
             table.add_hline()
 
         doc.append(LineBreak())
-        with doc.create(Tabular("|c|", row_height=1.4)) as t2:
-            t2.add_hline()
-            t2.add_row(
-                [
-                    bold(
-                        "Jumuah prayer 13:00, UWE Centre for Sport, BS16 1ZL, open to Brothers and Sisters"
-                    )
-                ]
-            )
-            t2.add_hline()
-            # t2.add_row(["ALL CLASSES PAUSED"])
-            # t2.add_row(["UNTIL"])
-            # t2.add_row(["19-01-2026"])
-            t2.add_row(
-                [
+        t = utils.add_classes(
+            Tabular("|c|", row_height=1.4),
+            [
+                utils.ClassRow(
+                    "Jumuah prayer 13:00, UWE Centre for Sport, BS16 1ZL, open to Brothers and Sisters",
+                    True,
+                ),
+                utils.ClassRow(
                     "Quran circles - Mondays - Brothers 18:00 in Br. prayer room - Sisters 18:15 in Sis. prayer room"
-                ]
-            )
-            t2.add_hline()
-            t2.add_row(
-                [
+                ),
+                utils.ClassRow(
                     "Seerah class - Tuesdays at 18:00 - Ustadh Amin - Brothers in 3E39, sisters online"
-                ]
-            )
-            t2.add_hline()
-            t2.add_row(
-                [
+                ),
+                utils.ClassRow(
                     "Roots - Wednesdays at 17:30 - Ustadh Abu Malik - Brothers and Sisters in 2X112"
-                ]
-            )
-            t2.add_hline()
+                ),
+            ],
+        )
 
+        doc.append(t)
         doc.append(LineBreak())
         doc.append(LineBreak())
         doc.append(bold("https://uwe.isoc.link/timetable"))
 
     # Save the document to a PDF file
-    doc.generate_pdf("prayer_time")
+    doc.generate_pdf("prayer_time", clean_tex=True)
 
 
-get_csv(1)
-get_csv(2)
+utils.get_csv(1, fd, ld)
+utils.get_csv(2, fd, ld)
 
-data = get_formatted_data()
+data = utils.get_formatted_data()
 
 gen_doc(data)
 
