@@ -63,6 +63,7 @@ def get_formatted_data():
 
     s_data = pd.read_csv("s.csv")
     h_data = pd.read_csv("h.csv")
+    print(h_data)
     s_data.insert(loc=5, column="Asr Hanafi", value=h_data["Asar"])
     s_data = s_data.rename(columns={"Asar": "Asr Shafi"})
     x = s_data["Date"].str.split(" ", expand=True)[[0, 1]]

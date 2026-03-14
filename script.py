@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+
 import utils
 
 # Get the current date, 20 days ago
@@ -8,13 +9,14 @@ today = datetime.now() - timedelta(days=20)
 # Handle year and month overflow (e.g., December to January)
 next_month = today.month % 12 + 1
 next_year = today.year + (today.month // 12)
-fd = datetime(next_year, 6, 1)
+fd = datetime(next_year, next_month, 1)
 
 # Calculate the last day of the next month
 # Handle year and month overflow
 next_next_month = (today.month + 1) % 12 + 1
 next_next_year = today.year + ((today.month + 1) // 12)
-ld = datetime(next_next_year, 7, 1) - timedelta(days=1)
+ld = datetime(next_next_year, next_month + 1, 1) - timedelta(days=1)
+print(fd, ld)
 
 
 def gen_doc(df):
@@ -59,15 +61,15 @@ def gen_doc(df):
                     "Jumuah prayer 13:00, UWE Centre for Sport, BS16 1ZL, open to Brothers and Sisters",
                     True,
                 ),
-                utils.ClassRow(
-                    "Quran circles - Mondays - Brothers 18:00 in Br. prayer room - Sisters 18:15 in Sis. prayer room"
-                ),
-                utils.ClassRow(
-                    "Seerah class - Tuesdays at 18:00 - Ustadh Amin - Brothers in 3E39, sisters online"
-                ),
-                utils.ClassRow(
-                    "Roots - Wednesdays at 17:30 - Ustadh Abu Malik - Brothers and Sisters in 2X112"
-                ),
+                # utils.ClassRow(
+                #     "Quran circles - Mondays - Brothers 18:00 in Br. prayer room - Sisters 18:15 in Sis. prayer room"
+                # ),
+                # utils.ClassRow(
+                #     "Seerah class - Tuesdays at 18:00 - Ustadh Amin - Brothers in 3E39, sisters online"
+                # ),
+                # utils.ClassRow(
+                #     "Roots - Wednesdays at 17:30 - Ustadh Abu Malik - Brothers and Sisters in 2X112"
+                # ),
             ],
         )
 

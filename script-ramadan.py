@@ -1,4 +1,5 @@
 from datetime import datetime
+
 import utils
 
 fd = datetime(2026, 2, 18)
@@ -171,7 +172,7 @@ def gen_doc(df):
         doc.append("Click or scan qr codes for details and forms")
 
     # Save the document to a PDF file
-    doc.generate_pdf("prayer_time", clean_tex=True)
+    doc.generate_pdf("prayer_time", clean_tex=False)
 
 
 get_csv(1)
