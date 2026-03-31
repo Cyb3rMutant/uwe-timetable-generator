@@ -32,10 +32,35 @@ def gen_doc(df):
     }
     doc = Document(geometry_options=geometry_options, font_size="large")
     doc.append(Command("pagenumbering", "gobble"))
+
+    doc.preamble.append(NoEscape(r"\usepackage{graphicx}"))
+    # doc.preamble.append(NoEscape(r"\usepackage[hidelinks]{hyperref}"))
+    doc.preamble.append(NoEscape(r"\usepackage{hyperref}"))
+
+    doc.append(NoEscape(r"""
+    \noindent
+    \begin{minipage}[t]{0.33\textwidth}
+        \raggedright
+        \href{https://uwe.isoc.link/timetable-left-link}{
+            \includegraphics[width=100px]{left-with-text.png}
+        }
+    \end{minipage}
+    \begin{minipage}[t]{0.33\textwidth}
+        \centering
+        \includegraphics[width=100px]{logo.png}
+    \end{minipage}
+    \begin{minipage}[t]{0.33\textwidth}
+        \raggedleft
+        \href{https://uwe.isoc.link/timetable-right-link}{
+            \includegraphics[width=100px]{right-with-text.png}
+        }
+    \end{minipage}
+
+    \vspace{1cm}
+    """))
+
     with doc.create(Center()):
-        with doc.create(Figure(position="th")) as logo:
-            logo.add_image("./logo.png", width="69px")
-        doc.append(NoEscape(r"\vspace{-10pt}"))  # Inserting the vertical space
+        doc.append(NoEscape(r"\vspace{-40pt}"))
         doc.append(bold(f"{fd.strftime('%a %d %b %Y')} - {ld.strftime('%a %d %b %Y')}"))
         doc.append(LineBreak())
 
@@ -67,9 +92,9 @@ def gen_doc(df):
                 utils.ClassRow(
                     "Seerah class - Tuesdays at 18:00 - Ustadh Amin - Brothers in 3E39, sisters online"
                 ),
-                # utils.ClassRow(
-                #     "Roots - Wednesdays at 17:30 - Ustadh Abu Malik - Brothers and Sisters in 2X112"
-                # ),
+                utils.ClassRow(
+                    "Wednesday workshops - 17:30 - Brothers and Sisters in 2X112 - keep an eye for updates"
+                ),
             ],
         )
 
