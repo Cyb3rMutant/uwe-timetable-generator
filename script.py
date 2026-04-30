@@ -13,7 +13,7 @@ fd = datetime(next_year, next_month, 1)
 
 # Calculate the last day of the next month
 # Handle year and month overflow
-next_next_month = (today.month + 1) % 12 + 1
+next_next_month = (today.month + 1) % 12
 next_next_year = today.year + ((today.month + 1) // 12)
 ld = datetime(next_next_year, next_month + 1, 1) - timedelta(days=1)
 print(fd, ld)
@@ -66,7 +66,7 @@ def gen_doc(df):
 
         doc.preamble.append(NoEscape(r"\setlength{\tabcolsep}{12pt}"))
         # Add a table to the document
-        with doc.create(Tabular("|c|c|c|c|c|c|c|c|c|", row_height=1.4)) as table:
+        with doc.create(Tabular("|c|c|c|c|c|c|c|c|c|", row_height=1.35)) as table:
             table.add_hline()
             table.add_row(df.columns)
             table.add_hline()
@@ -87,13 +87,13 @@ def gen_doc(df):
                     True,
                 ),
                 utils.ClassRow(
-                    "Quran circles - Mondays - Brothers 18:00 in Br. prayer room - Sisters 18:15 in Sis. prayer room"
+                    "Quran circles - Mondays 18:00 - Ustadh Abu Malik - Brothers only in prayer room"
                 ),
                 utils.ClassRow(
-                    "Seerah class - Tuesdays at 18:00 - Ustadh Amin - Brothers in 3E39, sisters online"
+                    "Seerah class - Tuesdays 18:00 - Ustadh Amin - Brothers in 3E39, sisters online"
                 ),
                 utils.ClassRow(
-                    "Wednesday workshops - 17:30 - Brothers and Sisters in 2X112 - keep an eye for updates"
+                    "Al-Aqsa series - Wednesdays 17:30 - Ustadh Abu Malik - Brothers and Sisters in 2X112"
                 ),
             ],
         )
